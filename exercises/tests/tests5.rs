@@ -22,7 +22,7 @@
 // Execute `rustlings hint tests5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// I a AM NOT DONE
 
 /// # Safety
 ///
@@ -32,7 +32,14 @@ unsafe fn modify_by_address(address: usize) {
     // code's behavior and the contract of this function. You may use the
     // comment of the test below as your format reference.
     unsafe {
-        todo!("Your code goes here")
+        // todo!("Your code goes here")
+        // 将 usize 类型的地址转换为 u32 的裸指针
+        let mut value: u32 = std::ptr::read_volatile(address as *const u32 as *mut u32);
+        // 修改值
+        value = 0xAABBCCDD;
+        // 将修改后的值写回内存地址
+        std::ptr::write_volatile(address as *mut u32, value);
+
     }
 }
 

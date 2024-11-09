@@ -3,7 +3,7 @@
 	This problem requires you to implement a basic interface for a binary tree
 */
 
-//I AM NOT DONE
+//I AM n NOT DONE
 use std::cmp::Ordering;
 use std::fmt::Debug;
 
@@ -51,12 +51,21 @@ where
     // Insert a value into the BST
     fn insert(&mut self, value: T) {
         //TODO
+        if let Some(ref mut root) = self.root {
+            root.insert(value);
+        } else {
+            self.root = Some(Box::new(TreeNode::new(value)));
+        }
     }
 
     // Search for a value in the BST
     fn search(&self, value: T) -> bool {
         //TODO
-        true
+        // true
+        match self.root.as_ref() {
+            Some(node) => node.search(&value),
+            None => false,
+        }
     }
 }
 
@@ -67,6 +76,44 @@ where
     // Insert a node into the tree
     fn insert(&mut self, value: T) {
         //TODO
+        if value < self.value {
+            if let Some(ref mut left_child) = self.left {
+                left_child.insert(value);
+            } else {
+                self.left = Some(Box::new(TreeNode {
+                    value,
+                    left: None,
+                    right: None,
+                }));
+            }
+        } else if value > self.value {
+            if let Some(ref mut right_child) = self.right {
+                right_child.insert(value);
+            } else {
+                self.right = Some(Box::new(TreeNode {
+                    value,
+                    left: None,
+                    right: None,
+                }));
+            }
+        }
+        // If value == self.value, do nothing (or handle duplicates as needed)
+    }
+
+    fn search(&self, value: &T) -> bool {
+        if value < &self.value {
+            match &self.left {
+                Some(node) => node.search(value),
+                None => false,
+            }
+        } else if value > &self.value {
+            match &self.right {
+                Some(node) => node.search(value),
+                None => false,
+            }
+        } else {
+            true
+        }
     }
 }
 
